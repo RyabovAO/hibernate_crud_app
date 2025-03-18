@@ -6,24 +6,18 @@ import com.aleksey.crud_app.repository.LabelRepository;
 import jakarta.persistence.Query;
 import org.hibernate.Session;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LabelRepositoryImpl implements LabelRepository {
-
-    private long getIdCount(Session session) {
-
-        Query getCountId = session.createQuery("SELECT COUNT(id) FROM Label");
-
-        return (long) getCountId.getSingleResult() + 1;
-    }
 
     @Override
     public Label getById(Long labelId) {
         Label selectLabel;
 
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            selectLabel = session.get(Label.class, labelId);
+            Query query = session.createQuery("FROM Label l WHERE l.id = :id", Label.class)
+                    .setParameter("id", labelId);
+            selectLabel = (Label) query.getSingleResult();
         }
 
         return selectLabel;
@@ -44,8 +38,6 @@ public class LabelRepositoryImpl implements LabelRepository {
     @Override
     public Label create(Label label) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            long id = getIdCount(session);
-            label.setId(id);
             session.beginTransaction();
             session.persist(label);
             session.getTransaction().commit();
@@ -65,7 +57,7 @@ public class LabelRepositoryImpl implements LabelRepository {
     }
 
     @Override
-    public void delete(Long labelId) {
+    public void deleteById(Long labelId) {
         Label label = getById(labelId);
 
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {

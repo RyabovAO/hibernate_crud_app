@@ -12,12 +12,7 @@ import lombok.*;
 public class Label {
 
     @Id
-    @Column (name = "id")
-//    @ManyToMany(mappedBy = "labels")
-//    @JoinTable(name = "postlabel",
-//            joinColumns = @JoinColumn(name = "label_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id")
-//    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")

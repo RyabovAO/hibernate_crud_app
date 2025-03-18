@@ -1,18 +1,18 @@
 package com.aleksey.crud_app.controller;
 
 import com.aleksey.crud_app.model.Post;
-import com.aleksey.crud_app.repository.PostRepository;
 import com.aleksey.crud_app.repository.jdbc.PostRepositoryImpl;
+import com.aleksey.crud_app.services.PostService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 public class PostController {
-    private final PostRepository postRepository;
+    private final PostService postService;
 
     public PostController() {
-        this.postRepository = new PostRepositoryImpl();
+        this.postService = new PostService();
     }
 
     public Post createPost(String content, String created, String updated, long writerId) {
@@ -21,7 +21,7 @@ public class PostController {
         post.setCreated(created);
         post.setUpdated(updated);
         post.setWriterId(writerId);
-        return postRepository.create(post);
+        return postService.createPost(post);
     }
 
     public Post updatePost(Long id, String content, String created, String updated, long writeId) {
@@ -31,18 +31,18 @@ public class PostController {
         post.setCreated(created);
         post.setUpdated(updated);
         post.setWriterId(writeId);
-        return postRepository.update(post);
+        return postService.updatePost(post);
     }
 
     public Post getPostById(Long id) {
-        return postRepository.getById(id);
+        return postService.getPostById(id);
     }
 
     public List<Post> getAllPost() {
-        return postRepository.getAll();
+        return postService.getAllPost();
     }
 
     public void deletePostById(Long id) {
-        postRepository.delete(id);
+        postService.deletePostById(id);
     }
 }

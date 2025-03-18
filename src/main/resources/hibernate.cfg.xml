@@ -16,11 +16,17 @@
         <property name="hibernate.connection.url">
             jdbc:postgresql://localhost:5432/hibernate_crud_app
         </property>
+
         <property name="hibernate.connection.username">
             postgres
         </property>
+
         <property name="hibernate.connection.password">
             mYsqL82
+        </property>
+
+        <property name="hibernate.default_schema">
+            test
         </property>
 
         <mapping class="com.aleksey.crud_app.model.Label"/>

@@ -1,6 +1,7 @@
 package com.aleksey.crud_app.repository.jdbc;
 
 import com.aleksey.crud_app.hibernate_running.HibernateUtil;
+import com.aleksey.crud_app.model.Label;
 import com.aleksey.crud_app.model.Post;
 import com.aleksey.crud_app.repository.PostRepository;
 import jakarta.persistence.Query;
@@ -10,20 +11,14 @@ import java.util.List;
 
 public class PostRepositoryImpl implements PostRepository {
 
-
-    private long getIdCount(Session session) {
-
-        Query getCountId = session.createQuery("SELECT COUNT(id) FROM Post");
-
-        return (long) getCountId.getSingleResult() + 1;
-    }
-
     @Override
     public Post getById(Long postId) {
         Post selectPost;
 
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            selectPost = session.get(Post.class, postId);
+            Query query = session.createQuery("FROM Post p LEFT JOIN FETCH p.labels WHERE p.id = :id", Post.class)
+                    .setParameter("id", postId);
+            selectPost = (Post) query.getSingleResult();
         }
 
         return selectPost;
@@ -34,7 +29,7 @@ public class PostRepositoryImpl implements PostRepository {
         List<Post> posts;
 
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createQuery("FROM Post", Post.class);
+            Query query = session.createQuery("FROM Post p LEFT JOIN FETCH p.labels", Post.class);
             posts = query.getResultList();
         }
         return posts;
@@ -43,8 +38,6 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     public Post create(Post post) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            long id = getIdCount(session);
-            post.setId(id);
             session.beginTransaction();
             session.persist(post);
             session.getTransaction().commit();
@@ -64,7 +57,7 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     @Override
-    public void delete(Long postId) {
+    public void deleteById(Long postId) {
         Post post = getById(postId);
 
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {

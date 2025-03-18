@@ -1,18 +1,18 @@
 package com.aleksey.crud_app.controller;
 
 import com.aleksey.crud_app.model.Label;
-import com.aleksey.crud_app.repository.LabelRepository;
 import com.aleksey.crud_app.repository.jdbc.LabelRepositoryImpl;
+import com.aleksey.crud_app.services.LabelService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 public class LabelController {
-    private final LabelRepository labelRepository;
+    private final LabelService labelService;
 
     public LabelController() {
-        this.labelRepository = new LabelRepositoryImpl();
+        this.labelService = new LabelService();
     }
 
         public Label createLabel(String name) {
@@ -21,7 +21,7 @@ public class LabelController {
         }
         Label label = new Label();
         label.setName(name);
-        return labelRepository.create(label);
+        return labelService.createLabel(label);
     }
 
     public Label updateLabel(Long id, String newName) {
@@ -31,12 +31,11 @@ public class LabelController {
         Label label = new Label();
         label.setId(id);
         label.setName(newName);
-        labelRepository.update(label);
-        return label;
+        return labelService.updateLabel(label);
     }
 
     public List<Label> getAllLabel() {
-        return labelRepository.getAll();
+        return labelService.getAllLabel();
     }
 
     public Label getLabelById(long id) {
@@ -44,13 +43,13 @@ public class LabelController {
             System.out.println("Uncorrected id");
             return null;
         }
-        return labelRepository.getById(id);
+        return labelService.getLabelById(id);
     }
 
     public void deleteLabelById(long id) {
         if(id == 0) {
             System.out.println("Uncorrected id");
-        } else labelRepository.delete(id);
+        } else labelService.deleteLabelById(id);
 
     }
 }

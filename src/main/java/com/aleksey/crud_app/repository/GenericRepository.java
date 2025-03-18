@@ -8,5 +8,5 @@ public interface GenericRepository<T, ID> {
     List<T> getAll();
     T create(T t);
     T update(T t);
-    void delete(ID id);
+    void deleteById(ID id);
 }

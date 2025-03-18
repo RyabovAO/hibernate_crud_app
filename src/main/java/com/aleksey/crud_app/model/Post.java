@@ -16,7 +16,7 @@ import java.util.Set;
 public class Post {
 
     @Id
-    @Column (name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "content")
@@ -28,15 +28,16 @@ public class Post {
     @Column(name = "updated")
     private String updated;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "postLabel",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "label_id")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "post_label",
+            joinColumns = @JoinColumn(name = "post_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name = "label_id", referencedColumnName="id")
     )
     private List<Label> labels = new ArrayList<>();
 
     @Column(name = "writer_id")
-    @JoinColumn(name = "id")
+//    @ManyToOne
+//    @JoinColumn(name = "id")
     private long writerId;
 
     @Enumerated(EnumType.STRING)
