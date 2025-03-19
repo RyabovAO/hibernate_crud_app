@@ -36,11 +36,13 @@ public class Post {
     private List<Label> labels = new ArrayList<>();
 
     @Column(name = "writer_id")
-//    @ManyToOne
-//    @JoinColumn(name = "id")
     private long writerId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "post_status")
     private PostStatus postStatus;
+
+    public void addLabel(Label label) {
+        labels.add(label);
+    }
 }

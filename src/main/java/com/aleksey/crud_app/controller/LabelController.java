@@ -29,7 +29,6 @@ public class LabelController {
             return null;
         }
         Label label = new Label();
-        label.setId(id);
         label.setName(newName);
         return labelService.updateLabel(label);
     }

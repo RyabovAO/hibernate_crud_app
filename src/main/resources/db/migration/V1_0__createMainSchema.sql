@@ -1,16 +1,16 @@
 CREATE TABLE IF NOT EXISTS labels (
-    id int NOT NULL PRIMARY KEY,
+    id int NOT NULL serial PRIMARY KEY,
     name varchar(255)
 );
 
 CREATE TABLE IF NOT EXISTS writers (
-    id int NOT NULL PRIMARY KEY,
+    id int NOT NULL serial PRIMARY KEY,
     fist_name varchar(255),
     last_name varchar(255)
 );
 
 CREATE TABLE IF NOT EXISTS posts (
-    id int NOT NULL PRIMARY KEY,
+    id int NOT NULL serial PRIMARY KEY,
     content varchar(255),
     created varchar(255),
     updated varchar(255),

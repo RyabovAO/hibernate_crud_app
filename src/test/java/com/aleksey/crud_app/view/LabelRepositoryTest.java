@@ -7,6 +7,7 @@ import com.aleksey.crud_app.services.LabelService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -29,14 +30,14 @@ class LabelRepositoryTest {
 
     @Test
     void createLabelTest() {
-        Label actulaLabel = new Label(1, "123");
-//        actulaLabel.setName("TestName");
+
+        Label actulaLabel = Label.builder()
+                .name("TestName")
+                .build();
 
         Mockito.when(labelRepository.create(actulaLabel)).thenReturn(actulaLabel);
 
-        Label expectedLabel;
-        expectedLabel = labelService.createLabel(actulaLabel);
-
+        Label expectedLabel = labelService.createLabel(actulaLabel);
         Assertions.assertEquals(actulaLabel, expectedLabel);
     }
 
