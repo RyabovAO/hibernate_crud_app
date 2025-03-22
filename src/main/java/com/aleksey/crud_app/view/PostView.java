@@ -28,14 +28,20 @@ public class PostView {
     public void createPost() {
         System.out.println("Enter content");
         String content = scanner.nextLine();
+
         System.out.println("Enter created");
         String created = scanner.nextLine();
+
         System.out.println("Enter updated");
         String updated = scanner.nextLine();
-        System.out.println("Enter writer id");
-        long writerId = scanner.nextLong();
 
-        Post createdPost = postController.createPost(content, created, updated, writerId);
+        System.out.println("Enter writer id");
+        long writerId = Long.parseLong(scanner.nextLine());
+
+        System.out.println("Enter label name");
+        String labelName = scanner.nextLine();
+
+        Post createdPost = postController.createPost(content, created, updated, writerId, labelName);
 
         System.out.println("Created post: " + createdPost);
     }

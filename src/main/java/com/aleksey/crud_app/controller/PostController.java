@@ -1,6 +1,8 @@
 package com.aleksey.crud_app.controller;
 
+import com.aleksey.crud_app.model.Label;
 import com.aleksey.crud_app.model.Post;
+import com.aleksey.crud_app.model.PostStatus;
 import com.aleksey.crud_app.repository.jdbc.PostRepositoryImpl;
 import com.aleksey.crud_app.services.PostService;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +17,19 @@ public class PostController {
         this.postService = new PostService();
     }
 
-    public Post createPost(String content, String created, String updated, long writerId) {
+    public Post createPost(String content, String created, String updated, long writerId, String labelName) {
         Post post = new Post();
+
         post.setContent(content);
         post.setCreated(created);
         post.setUpdated(updated);
         post.setWriterId(writerId);
+        post.setPostStatus(PostStatus.ACTIVE);
+
+        Label label = new Label();
+        label.setName(labelName);
+
+        post.addLabel(label);
         return postService.createPost(post);
     }
 
