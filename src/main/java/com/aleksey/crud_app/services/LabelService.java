@@ -13,6 +13,10 @@ public class LabelService {
         this.labelRepository = new LabelRepositoryImpl();
     }
 
+    public LabelService(LabelRepository labelRepository) {
+        this.labelRepository = labelRepository;
+    }
+
     public Label createLabel(Label label) {
         return labelRepository.create(label);
     }
